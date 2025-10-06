@@ -362,6 +362,15 @@
       color:rgba(47,47,47,.6);
       font-size:clamp(12px, 1.4vw, 14px);
     }
+    .required {
+      color: #e53935;
+      margin-left: 2px;
+    }
+    .error-message {
+      color: #e53935;
+      margin-top: 8px;
+      font-size: 14px;
+    }
     .options{
       display:grid;
       gap:clamp(10px, 1.5vw, 16px);
@@ -721,6 +730,22 @@
         bottom: max(16px, var(--safe-area-inset-bottom));
       }
     }
+
+    /* Processing Button States */
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .processing-spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -823,27 +848,28 @@
         <form id="wl-form" novalidate>
           <!-- 1. Name -->
           <div>
-            <label for="name">1. Name</label>
+            <label for="name">1. Name <span class="required">*</span></label>
             <input id="name" name="name" type="text" placeholder="Your full name" required>
             <div class="muted" id="err-name" role="alert" style="display:none">Please enter your name.</div>
           </div>
           <!-- 2. Email -->
           <div>
-            <label for="email">2. Email</label>
+            <label for="email">2. Email <span class="required">*</span></label>
             <input id="email" name="email" type="email" placeholder="you@example.com" required>
             <div class="muted" id="err-email" role="alert" style="display:none">Please enter a valid email.</div>
           </div>
           <!-- 3. Price (open-ended, $) -->
           <div>
-            <label for="price">3. How much would you honestly be willing to pay monthly for easy, daily access to fresh job opportunities that match your skills? <span class="muted">(Currency: $)</span></label>
-            <input id="price" name="price" type="text" inputmode="decimal" placeholder="e.g. 9, 15, 29">
+            <label for="price">3. How much would you honestly be willing to pay monthly for easy, daily access to fresh job opportunities that match your skills? <span class="required">*</span> <span class="muted">(Currency: $)</span></label>
+            <input id="price" name="price" type="text" inputmode="decimal" placeholder="e.g. 9, 15, 29" required>
             <p class="muted mt-2">Be as honest as possible — this helps us price fairly and sustainably.</p>
             <div class="muted" id="err-price" role="alert" style="display:none">Please enter a valid number (e.g., 9, 15, 29).</div>
           </div>
           <!-- 4. Success goals (multi-select with Other) -->
           <fieldset>
             <legend class="sr-only">4. Success goals</legend>
-            <label>4. What would success with this platform look like for you? <span class="muted">(Select one or more)</span></label>
+            <label>4. What would success with this platform look like for you? <span class="required">*</span> <span class="muted">(Select one or more)</span></label>
+            <div id="err-goals" class="muted error-message" role="alert" style="display:none">Please select at least one goal.</div>
             <div class="options mt-2">
               <!-- Generated via HTML for clarity/accessibility -->
               <label class="check"><input type="checkbox" name="goals" value="Land a remote freelance gig"> <span>Land a remote freelance gig</span></label>
@@ -872,7 +898,12 @@
           </fieldset>
 
           <div class="actions">
-            <button class="btn" type="submit"><span aria-hidden></span> Join the Waitlist Now — Beat the Crowd to Easy Jobs</button>
+            <button class="btn" type="submit" id="submit-button">
+              <svg class="btn-icon processing-spinner" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display: none;">
+                <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" stroke-dasharray="40" />
+              </svg>
+              <span class="button-text">Join the Waitlist Now — Beat the Crowd to Easy Jobs</span>
+            </button>
             <p class="muted mt-2">We respect your time and inbox. Unsubscribe anytime.</p>
           </div>
         </form>
@@ -929,27 +960,44 @@
     function validateEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
     function validatePrice(v){ if(!v) return true; const n = Number(String(v).replace(/[^0-9.]/g,'')); return Number.isFinite(n) && n >= 0; }
 
+    const submitButton = document.getElementById('submit-button');
+    const buttonText = submitButton.querySelector('.button-text');
+    const processingSpinner = submitButton.querySelector('.processing-spinner');
+    
+    function setProcessingState(isProcessing) {
+      submitButton.disabled = isProcessing;
+      processingSpinner.style.display = isProcessing ? 'inline-block' : 'none';
+      buttonText.textContent = isProcessing ? 'Processing...' : 'Join the Waitlist Now — Beat the Crowd to Easy Jobs';
+    }
+
     form.addEventListener('submit', (e)=>{
       e.preventDefault();
+      // Set processing state
+      setProcessingState(true);
       // clear errors
-      ['err-name','err-email','err-price'].forEach(id=>document.getElementById(id).style.display='none');
+      ['err-name','err-email','err-price','err-goals','err-challenges'].forEach(id=>document.getElementById(id).style.display='none');
 
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const rawPrice = document.getElementById('price').value.trim();
+      const selectedGoals = Array.from(document.querySelectorAll('input[name="goals"]:checked')).map(i=>i.value);
+      const selectedChallenges = Array.from(document.querySelectorAll('input[name="challenges"]:checked')).map(i=>i.value);
 
       let valid = true;
       if(!name){ document.getElementById('err-name').style.display='block'; valid = false; }
       if(!validateEmail(email)){ document.getElementById('err-email').style.display='block'; valid = false; }
       if(!validatePrice(rawPrice)){ document.getElementById('err-price').style.display='block'; valid = false; }
-      if(!valid) return;
+      if(selectedGoals.length === 0){ document.getElementById('err-goals').style.display='block'; valid = false; }
+      if(selectedChallenges.length === 0){ document.getElementById('err-challenges').style.display='block'; valid = false; }
+      if(!valid) {
+        setProcessingState(false);
+        return;
+      }
 
       const price = rawPrice ? Number(rawPrice.replace(/[^0-9.]/g,'')) : null;
-      const goals = Array.from(document.querySelectorAll('input[name="goals"]:checked')).map(i=>i.value);
       const goalOther = otherInput.disabled ? '' : otherInput.value.trim();
-      const challenges = Array.from(document.querySelectorAll('input[name="challenges"]:checked')).map(i=>i.value);
 
-      const payload = { name, email, price, goals, goalOther, challenges, ts: new Date().toISOString() };
+      const payload = { name, email, price, goals: selectedGoals, goalOther, challenges: selectedChallenges, ts: new Date().toISOString() };
 
       // Persist locally as a fallback (e.g., demo/static hosting)
       try{
@@ -972,6 +1020,7 @@
         form.reset(); 
         otherInput.disabled = true;
         showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
+        setProcessingState(false);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -979,6 +1028,7 @@
         form.reset(); 
         otherInput.disabled = true;
         showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
+        setProcessingState(false);
       });
     });
   </script>
