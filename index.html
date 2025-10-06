@@ -624,23 +624,42 @@
     }
 
     /* Enhanced Footer */
-    footer{
-      padding:clamp(28px, 4vw, 40px) 0;
+    footer {
+      padding: clamp(28px, 4vw, 40px) 0;
       margin-top: clamp(40px, 6vw, 80px);
       border-top: 1px solid rgba(0,0,0,.08);
       background: #fff;
     }
-    footer .links{
-      display:flex;
-      gap:clamp(12px, 2vw, 20px);
-      flex-wrap:wrap;
-      align-items:center;
+    .footer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+    footer .links {
+      display: flex;
+      gap: clamp(12px, 2vw, 20px);
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
     }
     footer a {
       transition: color 0.2s ease, transform 0.2s ease;
     }
     footer a:hover {
       transform: translateY(-1px);
+    }
+    .copyright {
+      margin: 0;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .footer-container {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        text-align: left;
+      }
     }
 
     /* Enhanced Reveal animations (reduced-motion friendly) */
@@ -814,8 +833,40 @@
     </div>
   </header>
 
-  <!-- BENEFITS -->
+  <!-- WHO THIS IS FOR -->
   <main>
+    <section class="container">
+      <h2 class="headline" style="font-size:clamp(26px,3.6vw,36px);color:var(--clr-primary);margin:0 0 1.5rem">Who This Is For</h2>
+      <p>Low-Hanging Jobs is built for you if you are any of the following:</p>
+      <ul style="list-style:none;padding:0;margin:2rem 0;display:grid;gap:1rem">
+        <li style="display:flex;gap:1rem;align-items:flex-start">
+          <span style="color:var(--clr-secondary)">✓</span>
+          <span>A freelancer tired of sending proposals on Upwork and Fiverr without any replies.</span>
+        </li>
+        <li style="display:flex;gap:1rem;align-items:flex-start">
+          <span style="color:var(--clr-secondary)">✓</span>
+          <span>A remote worker frustrated with competing with 500+ applicants on LinkedIn and Indeed.</span>
+        </li>
+        <li style="display:flex;gap:1rem;align-items:flex-start">
+          <span style="color:var(--clr-secondary)">✓</span>
+          <span>A recent graduate looking for your first real break into remote working without needing years of experience.</span>
+        </li>
+        <li style="display:flex;gap:1rem;align-items:flex-start">
+          <span style="color:var(--clr-secondary)">✓</span>
+          <span>A skilled professional (like a graphic designer, writer, or virtual assistant) who wants to find clients faster.</span>
+        </li>
+        <li style="display:flex;gap:1rem;align-items:flex-start">
+          <span style="color:var(--clr-secondary)">✓</span>
+          <span>A side-hustler wanting to turn your skill into extra income with flexible, part-time gigs.</span>
+        </li>
+        <li style="display:flex;gap:1rem;align-items:flex-start">
+          <span style="color:var(--clr-secondary)">✓</span>
+          <span>Anyone who is tired of being ghosted by employers and wants a more human way to find work.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- BENEFITS -->
     <section class="benefits container">
       <div class="grid">
         <article class="card reveal">
@@ -878,8 +929,8 @@
     <!-- WAITLIST FORM -->
     <section id="waitlist" class="container" aria-labelledby="waitlist-title">
       <div class="form-wrap reveal">
-        <h2 id="waitlist-title" class="headline" style="font-size:clamp(26px,3.6vw,36px);color:var(--clr-primary);margin:0">Join The Waitlist</h2>
-        <p class="muted mt-2">Be the first to get instant access when we launch!</p>
+        <h2 id="waitlist-title" class="headline" style="font-size:clamp(26px,3.6vw,36px);color:var(--clr-primary);margin:0 0 1rem">Join The Waitlist</h2>
+        <p class="muted" style="margin:0 0 1.5rem">Be the first to get instant access when we launch!</p>
 
         <form id="wl-form" novalidate>
           <!-- 1. Name -->
@@ -949,11 +1000,11 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="container" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
-      <p class="muted">© <span id="year"></span> Low‑Hanging Jobs. All rights reserved.</p>
+    <div class="container footer-container">
       <nav class="links">
         <a href="#waitlist" style="color:var(--clr-accent);text-decoration:none">Join the Waitlist</a>
-        <span class="muted">•</span>
+      </nav>
+      <p class="muted copyright">© <span id="year"></span> Low‑Hanging Jobs. All rights reserved.</p>
     </div>
   </footer>
 
