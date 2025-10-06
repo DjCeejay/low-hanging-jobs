@@ -972,8 +972,7 @@
 
     form.addEventListener('submit', (e)=>{
       e.preventDefault();
-      // Set processing state
-      setProcessingState(true);
+      
       // clear errors
       ['err-name','err-email','err-price','err-goals','err-challenges'].forEach(id=>document.getElementById(id).style.display='none');
 
@@ -990,9 +989,12 @@
       if(selectedGoals.length === 0){ document.getElementById('err-goals').style.display='block'; valid = false; }
       if(selectedChallenges.length === 0){ document.getElementById('err-challenges').style.display='block'; valid = false; }
       if(!valid) {
-        setProcessingState(false);
+        showToast("❌ Please fill in all required fields.");
         return;
       }
+
+      // Set processing state only after validation passes
+      setProcessingState(true);
 
       const price = rawPrice ? Number(rawPrice.replace(/[^0-9.]/g,'')) : null;
       const goalOther = otherInput.disabled ? '' : otherInput.value.trim();
@@ -1015,19 +1017,27 @@
         },
         body: JSON.stringify(payload)
       })
-      .then(() => {
+      .then((response) => {
         // With no-cors, we assume success if no error is thrown
         setTimeout(() => {
           form.reset(); 
           otherInput.disabled = true;
           showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
           setProcessingState(false);
-        }, 1000); // Add slight delay for better UX
+          // Scroll to top of the page
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          // Track form submission with Facebook Pixel
+          if (typeof fbq !== 'undefined') {
+            fbq('track', 'CompleteRegistration');
+          }
+        }, 800); // Slight delay for better UX
       })
       .catch(error => {
         console.error('Error:', error);
         setProcessingState(false);
         showToast("❌ Something went wrong. Please try again.");
+        // Scroll to see the error message
+        window.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
       });
     });
   </script>
