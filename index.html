@@ -1016,19 +1016,18 @@
         body: JSON.stringify(payload)
       })
       .then(() => {
-        // If we reach this point, the request was sent successfully
-        form.reset(); 
-        otherInput.disabled = true;
-        showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
-        setProcessingState(false);
+        // With no-cors, we assume success if no error is thrown
+        setTimeout(() => {
+          form.reset(); 
+          otherInput.disabled = true;
+          showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
+          setProcessingState(false);
+        }, 1000); // Add slight delay for better UX
       })
       .catch(error => {
         console.error('Error:', error);
-        // If data is showing up in the sheet, we can assume it worked despite the CORS error
-        form.reset(); 
-        otherInput.disabled = true;
-        showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
         setProcessingState(false);
+        showToast("❌ Something went wrong. Please try again.");
       });
     });
   </script>
