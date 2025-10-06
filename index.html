@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Low‑Hanging Jobs — Get Hired Fast</title>
+  <meta name="description" content="Find the jobs nobody else is seeing — and get hired fast. Join the waitlist for Low‑Hanging Jobs." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --clr-primary:#6D2E8F; /* plum-purple */
+      --clr-secondary:#7CB518; /* apple green */
+      --clr-accent:#FF6B35; /* clementine */
+      --clr-bg:#F9F9F9; /* soft white */
+      --clr-cta:#2F2F2F; /* charcoal black */
+      --radius:20px;
+      --shadow-soft:0 10px 30px rgba(0,0,0,.06);
+      --maxw:1200px;
+      --header-height: 72px;
+      --safe-area-inset-top: env(safe-area-inset-top, 0px);
+      --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    /* Enhanced Base Styles */
+    html{
+      scroll-behavior:smooth;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body{
+      margin:0;
+      background:var(--clr-bg);
+      color:#2F2F2F;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding-top: var(--safe-area-inset-top);
+      padding-bottom: var(--safe-area-inset-bottom);
+    }
+    .headline{
+      font-family:Sora,Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      font-weight:700;
+      letter-spacing:-0.02em;
+    }
+    .container{
+      max-width:var(--maxw);
+      margin-inline:auto;
+      padding:clamp(16px,3vw,32px);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    /* Enhanced Button Styles */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content: center;
+      gap:.5rem;
+      background:var(--clr-cta);
+      color:#fff;
+      border:none;
+      padding:.9rem 1.25rem;
+      border-radius:16px;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:var(--shadow-soft);
+      text-decoration:none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.12);
+    }
+    .btn:active {
+      transform: translateY(0);
+    }
+    .btn:focus-visible{
+      outline:3px solid var(--clr-secondary);
+      outline-offset:3px;
+    }
+    @media (hover: none) {
+      .btn:hover {
+        transform: none;
+        box-shadow: var(--shadow-soft);
+      }
+    }
+
+    /* Enhanced HERO */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: calc(100vh - var(--header-height));
+      display: flex;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+    }
+
+    .hero-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .hero-backdrop::before, .hero-backdrop::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.1;
+      z-index: 0;
+      animation: pulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.1; }
+      100% { transform: scale(1.1); opacity: 0.08; }
+    }
+
+    .hero-backdrop::before {
+      width: 42rem;
+      height: 42rem;
+      right: -18rem;
+      top: -18rem;
+      background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
+    }
+
+    .hero-backdrop::after {
+      width: 34rem;
+      height: 34rem;
+      left: -16rem;
+      bottom: -16rem;
+      background: linear-gradient(135deg, var(--clr-secondary), var(--clr-primary));
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding-top: clamp(48px,10vw,100px);
+      padding-bottom: clamp(20px,6vw,40px);
+    }
+
+    .hero-content {
+      position: relative;
+      padding: clamp(20px, 4vw, 40px);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 
+        0 8px 32px rgba(0,0,0,0.03),
+        0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .hero h1 {
+      font-size: clamp(32px,5vw,60px);
+      line-height: 1.1;
+      margin: 0;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientText 6s ease infinite;
+    }
+
+    @keyframes gradientText {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .hero h1 .highlight {
+      color: var(--clr-primary);
+      position: relative;
+      display: inline-block;
+      margin-top: 0.5em;
+    }
+
+    .hero h1 .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--clr-accent);
+      border-radius: 2px;
+      opacity: 0.3;
+    }
+
+    .hero-description {
+      max-width: 900px;
+      margin: 20px auto 0;
+      color: rgba(47,47,47,.9);
+      font-size: clamp(16px,2.2vw,20px);
+      line-height: 1.6;
+    }
+
+    .text-emphasis {
+      color: var(--clr-primary);
+      font-weight: 700;
+    }
+
+    .hero-cta {
+      margin-top: 2rem;
+    }
+
+    .primary-btn {
+      background: var(--clr-primary);
+      transition: all 0.3s ease;
+    }
+
+    .primary-btn:hover {
+      background: var(--clr-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+
+    .btn-icon {
+      margin-right: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .primary-btn:hover .btn-icon {
+      transform: translateY(2px);
+    }
+
+    @media (max-width: 768px) {
+      .hero-content {
+        padding: clamp(16px, 3vw, 24px);
+        margin: 0 clamp(12px, 3vw, 20px);
+      }
+    }
+
+    /* Enhanced BENEFITS */
+    .benefits{
+      padding-block:max(56px, 8vh);
+      position: relative;
+      z-index: 0;
+    }
+    .grid{
+      display:grid;
+      gap:clamp(20px, 3vw, 32px);
+      position: relative;
+      margin-bottom: clamp(80px, 10vw, 120px);
+    }
+    @media (min-width: 768px){
+      .grid{
+        grid-template-columns:repeat(3,1fr);
+      }
+    }
+    .card{
+      background:#fff;
+      border-radius:var(--radius);
+      padding:clamp(22px, 3vw, 32px);
+      border:1px solid rgba(0,0,0,.05);
+      box-shadow:var(--shadow-soft);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.08);
+    }
+    .card h3{
+      margin:0 0 12px;
+      font-family:Sora,Inter,sans-serif;
+      color:var(--clr-primary);
+      font-size:clamp(18px, 2.2vw, 22px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .center{text-align:center}
+
+    /* Enhanced WAITLIST FORM */
+    .form-wrap{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow:var(--shadow-soft);
+      border-radius:28px;
+      padding:clamp(24px,4vw,40px);
+      position: relative;
+      overflow: hidden;
+    }
+    .form-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+    }
+    form{
+      display:grid;
+      gap:clamp(18px, 2.5vw, 24px);
+      margin-top:clamp(18px, 2.5vw, 24px);
+    }
+    label{
+      display:block;
+      font-size:clamp(14px, 1.6vw, 16px);
+      color:rgba(47,47,47,.85);
+      margin-bottom:8px;
+      font-weight: 500;
+    }
+    input[type="text"],
+    input[type="email"],
+    .text-input{
+      width:100%;
+      border:2px solid rgba(0,0,0,.08);
+      background:var(--clr-bg);
+      padding:clamp(14px, 1.8vw, 16px);
+      border-radius:14px;
+      font:inherit;
+      outline:none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input[type="text"]:hover,
+    input[type="email"]:hover,
+    .text-input:hover {
+      border-color: rgba(0,0,0,.15);
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    .text-input:focus{
+      border-color: var(--clr-primary);
+      box-shadow:0 0 0 4px var(--clr-primary)15;
+    }
+    .muted{
+      color:rgba(47,47,47,.6);
+      font-size:clamp(12px, 1.4vw, 14px);
+    }
+    .options{
+      display:grid;
+      gap:clamp(10px, 1.5vw, 16px);
+    }
+    @media (min-width:640px){
+      .options{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+    .check{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      background:var(--clr-bg);
+      border:2px solid rgba(0,0,0,.08);
+      padding:clamp(12px, 1.6vw, 16px);
+      border-radius:14px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    .check:hover {
+      border-color: rgba(0,0,0,.15);
+      transform: translateY(-1px);
+    }
+    .check input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(0,0,0,.15);
+      border-radius: 6px;
+      margin: 0;
+      position: relative;
+      cursor: pointer;
+    }
+    .check input[type="checkbox"]:checked {
+      background: var(--clr-primary);
+      border-color: var(--clr-primary);
+    }
+    .check input[type="checkbox"]:checked::after {
+      content: "✓";
+      position: absolute;
+      color: white;
+      font-size: 14px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .sr-only{
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
+    .actions{
+      padding-top:clamp(12px, 2vw, 24px);
+    }
+    @media (max-width: 480px) {
+      .form-wrap {
+        border-radius: 20px;
+        margin-inline: -16px;
+      }
+    }
+
+    /* Enhanced CTA Section */
+    .cta-section {
+      position: relative;
+      padding: clamp(40px, 6vw, 80px) clamp(20px, 4vw, 40px);
+      margin: clamp(80px, 8vw, 120px) auto;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0.95));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      max-width: min(100%, 800px);
+      overflow: visible;
+      z-index: 1;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .decorative-pattern {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0;
+      width: min(240px, 80%);
+      height: auto;
+    }
+
+    .cta-headline {
+      font-size: clamp(24px, 4vw, 32px) !important;
+      line-height: 1.3;
+      margin: 0 auto;
+      max-width: 600px;
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding: 0.5em 1em;
+    }
+
+    .decorative-side {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 0;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+
+    .decorative-side:hover {
+      opacity: 1;
+    }
+
+    .decorative-side.left {
+      left: 2%;
+    }
+
+    .decorative-side.right {
+      right: 2%;
+    }
+
+    .path-animated {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      animation: drawPath 3s ease-out forwards;
+    }
+
+    @keyframes drawPath {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .decorative-side circle {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+      }
+    }
+
+    .cta-button {
+      position: relative;
+      z-index: 1;
+      background: var(--clr-accent);
+      font-size: clamp(16px, 2vw, 18px);
+      padding: clamp(12px, 2vw, 16px) clamp(20px, 3vw, 28px);
+    }
+
+    .cta-button:hover {
+      background: var(--clr-primary);
+    }
+
+    .btn-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .cta-button:hover .btn-icon {
+      transform: translateY(2px);
+    }
+
+    .cta-note {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(14px, 1.6vw, 16px);
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .cta-section {
+        margin-inline: clamp(16px, 4vw, 32px);
+        padding: clamp(32px, 5vw, 40px) clamp(16px, 3vw, 24px);
+      }
+      
+      .decorative-side svg {
+        width: 80px;
+        height: auto;
+      }
+      
+      .decorative-pattern {
+        width: 180px;
+        top: -16px;
+      }
+      
+      .decorative-side.left {
+        left: 0;
+      }
+      
+      .decorative-side.right {
+        right: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cta-section {
+        margin-inline: 16px;
+        padding: 32px 20px;
+      }
+      
+      .decorative-pattern {
+        width: 140px;
+        top: -12px;
+      }
+      
+      .decorative-side {
+        opacity: 0.4;
+      }
+      
+      .cta-headline {
+        font-size: clamp(20px, 5vw, 24px) !important;
+      }
+      
+      .cta-button {
+        width: calc(100% - 32px);
+        margin: 0 16px;
+      }
+    }
+
+    /* Enhanced Footer */
+    footer{
+      padding:clamp(28px, 4vw, 40px) 0;
+      margin-top: clamp(40px, 6vw, 80px);
+      border-top: 1px solid rgba(0,0,0,.08);
+      background: #fff;
+    }
+    footer .links{
+      display:flex;
+      gap:clamp(12px, 2vw, 20px);
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    footer a {
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    footer a:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Enhanced Reveal animations (reduced-motion friendly) */
+    .reveal{
+      opacity:0;
+      transform:translateY(20px);
+      transition:opacity .8s ease, transform .8s ease;
+    }
+    .reveal.in{
+      opacity:1;
+      transform:none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        transition: opacity .4s ease-out;
+        transform: none;
+      }
+    }
+
+    /* Enhanced Utility Classes */
+    .mt-2{margin-top:.5rem}
+    .mt-3{margin-top:.75rem}
+    .mt-4{margin-top:1rem}
+    .mt-8{margin-top:2rem}
+    .pill{
+      display:inline-flex;
+      align-items: center;
+      padding:.35rem .75rem;
+      border-radius:999px;
+      font-size:clamp(12px, 1.4vw, 14px);
+      background:rgba(109,46,143,.12);
+      color:var(--clr-primary);
+      font-weight:600;
+      gap: 4px;
+    }
+    .pill::before {
+      content: '🔥';
+      font-size: 0.9em;
+    }
+
+    /* Mobile Optimizations */
+    @media (max-width: 480px) {
+      .container {
+        padding-inline: max(16px, 4vw);
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .hero h1 {
+        font-size: clamp(28px, 7vw, 32px);
+      }
+      .hero p {
+        font-size: clamp(14px, 4vw, 16px);
+      }
+    }
+
+    /* Toast Enhancement */
+    #toast {
+      position: fixed;
+      inset: auto 16px 16px auto;
+      background: var(--clr-cta);
+      color: #fff;
+      padding: clamp(12px, 2vw, 16px) clamp(16px, 3vw, 24px);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.2);
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+      transition: opacity .35s ease, transform .35s ease;
+      z-index: 1000;
+      max-width: 90vw;
+      text-align: center;
+      font-weight: 500;
+    }
+    @media (max-width: 480px) {
+      #toast {
+        left: 16px;
+        text-align: center;
+      }
+    }
+
+    /* Responsive Improvements */
+    @media (min-width: 1200px) {
+      .container {
+        padding-inline: max(32px, calc((100vw - var(--maxw)) / 2));
+      }
+    }
+
+    /* iOS Safe Area Support */
+    @supports(padding: max(0px)) {
+      body {
+        padding-top: max(var(--safe-area-inset-top), 16px);
+        padding-bottom: max(var(--safe-area-inset-bottom), 16px);
+      }
+      #toast {
+        bottom: max(16px, var(--safe-area-inset-bottom));
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-backdrop"></div>
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <h1 class="headline">
+          <span class="text-gradient">Find the Jobs Nobody Else Is Seeing —</span> 
+          <span class="highlight">And Get Hired Fast</span>
+        </h1>
+        <p class="hero-description">
+          Every day, hundreds of easy-to-get jobs are posted in Facebook groups, Twitter feeds, Slack channels, and subreddits. But they disappear quickly — and most job seekers never see them.
+          <br> <strong class="text-emphasis">Low‑Hanging Jobs</strong> brings them all to one place — so you can apply first, skip the noise, and get hired faster.
+        </p>
+        <div class="hero-cta">
+          <p class="mt-3"><span class="pill">Early access is limited</span></p>
+          <p class="mt-3">
+            <a class="btn primary-btn" href="#waitlist" aria-describedby="cta-help">
+              <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 3V17M10 17L4 11M10 17L16 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Join the Waitlist Now — Beat the Crowd to Easy Jobs
+            </a>
+          </p>
+        </div>
+      </div>
+      <span id="cta-help" class="sr-only">Takes you to the waitlist form section</span>
+    </div>
+  </header>
+
+  <!-- BENEFITS -->
+  <main>
+    <section class="benefits container">
+      <div class="grid">
+        <article class="card reveal">
+          <h3> Easy Jobs, No Gatekeepers</h3>
+          <p>No complex resumes. No 5‑round interviews. Just real jobs posted by small businesses, startups, and founders who need help — <em>now</em>.</p>
+        </article>
+        <article class="card reveal" style="transition-delay:.08s">
+          <h3> Be the First to Apply</h3>
+          <p>Opportunities sorted by how fresh they are. See what was posted <strong>3 hours ago…</strong></p>
+        </article>
+        <article class="card reveal" style="transition-delay:.16s">
+          <h3> Stop Competing With Everyone</h3>
+          <p>The hidden jobs are out there. We’ll help you find them first.</p>
+        </article>
+      </div>
+
+      <div class="center mt-8 cta-section">
+        <!-- Decorative top pattern -->
+        <svg class="decorative-pattern" width="240" height="80" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M120 16C120 16 140 32 140 40C140 48 120 64 120 64" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round" opacity="0.2"/>
+          <path d="M120 8C120 8 148 32 148 40C148 48 120 72 120 72" stroke="var(--clr-accent)" stroke-width="2" stroke-linecap="round" opacity="0.15"/>
+          <path d="M120 0C120 0 156 32 156 40C156 48 120 80 120 80" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round" opacity="0.1"/>
+          <!-- Mirror the patterns for symmetry -->
+          <path d="M120 16C120 16 100 32 100 40C100 48 120 64 120 64" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round" opacity="0.2"/>
+          <path d="M120 8C120 8 92 32 92 40C92 48 120 72 120 72" stroke="var(--clr-accent)" stroke-width="2" stroke-linecap="round" opacity="0.15"/>
+          <path d="M120 0C120 0 84 32 84 40C84 48 120 80 120 80" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round" opacity="0.1"/>
+        </svg>
+
+        <p class="headline cta-headline">Ready to Stop Competing for the Same Jobs as Everyone Else?</p>
+        
+        <!-- Enhanced decorative elements -->
+        <div class="decorative-side left" aria-hidden="true">
+          <svg width="120" height="160" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="path-animated" d="M60 20C60 20 90 60 90 80C90 100 60 140 60 140" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="60" cy="140" r="4" fill="var(--clr-accent)"/>
+            <path d="M40 60C40 60 55 80 55 90C55 100 40 120 40 120" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        
+        <div class="decorative-side right" aria-hidden="true">
+          <svg width="120" height="160" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="path-animated" d="M60 20C60 20 30 60 30 80C30 100 60 140 60 140" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="60" cy="140" r="4" fill="var(--clr-accent)"/>
+            <path d="M80 60C80 60 65 80 65 90C65 100 80 120 80 120" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        
+        <p class="mt-3">
+          <a class="btn cta-button" href="#waitlist">
+            <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 4V16M10 16L4 10M10 16L16 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Join the Waitlist Now
+          </a>
+        </p>
+        <p class="muted mt-2 cta-note">✨ Spots are limited for early access</p>
+      </div>
+    </section>
+
+    <!-- WAITLIST FORM -->
+    <section id="waitlist" class="container" aria-labelledby="waitlist-title">
+      <div class="form-wrap reveal">
+        <h2 id="waitlist-title" class="headline" style="font-size:clamp(26px,3.6vw,36px);color:var(--clr-primary);margin:0">Waitlist Form</h2>
+        <p class="muted mt-2">Be as honest as possible — this helps us price fairly and sustainably.</p>
+
+        <form id="wl-form" novalidate>
+          <!-- 1. Name -->
+          <div>
+            <label for="name">1. Name</label>
+            <input id="name" name="name" type="text" placeholder="Your full name" required>
+            <div class="muted" id="err-name" role="alert" style="display:none">Please enter your name.</div>
+          </div>
+          <!-- 2. Email -->
+          <div>
+            <label for="email">2. Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required>
+            <div class="muted" id="err-email" role="alert" style="display:none">Please enter a valid email.</div>
+          </div>
+          <!-- 3. Price (open-ended, $) -->
+          <div>
+            <label for="price">3. How much would you honestly be willing to pay monthly for easy, daily access to fresh job opportunities that match your skills? <span class="muted">(Currency: $)</span></label>
+            <input id="price" name="price" type="text" inputmode="decimal" placeholder="e.g. 9, 15, 29">
+            <p class="muted mt-2">Be as honest as possible — this helps us price fairly and sustainably.</p>
+            <div class="muted" id="err-price" role="alert" style="display:none">Please enter a valid number (e.g., 9, 15, 29).</div>
+          </div>
+          <!-- 4. Success goals (multi-select with Other) -->
+          <fieldset>
+            <legend class="sr-only">4. Success goals</legend>
+            <label>4. What would success with this platform look like for you? <span class="muted">(Select one or more)</span></label>
+            <div class="options mt-2">
+              <!-- Generated via HTML for clarity/accessibility -->
+              <label class="check"><input type="checkbox" name="goals" value="Land a remote freelance gig"> <span>Land a remote freelance gig</span></label>
+              <label class="check"><input type="checkbox" name="goals" value="Get a part-time side hustle"> <span>Get a part-time side hustle</span></label>
+              <label class="check"><input type="checkbox" name="goals" value="Secure my first online job"> <span>Secure my first online job</span></label>
+              <label class="check"><input type="checkbox" name="goals" value="Replace my 9–5 job"> <span>Replace my 9–5 job</span></label>
+              <label class="check"><input type="checkbox" name="goals" value="Earn quick income while job hunting"> <span>Earn quick income while job hunting</span></label>
+              <label class="check"><input type="checkbox" name="goals" value="Build consistent income with short-term contracts"> <span>Build consistent income with short-term contracts</span></label>
+              <div>
+                <label class="check"><input id="goal-other" type="checkbox" name="goals" value="Other"> <span>Other</span></label>
+                <input class="text-input mt-2" type="text" id="goal-other-text" name="goal_other_text" placeholder="Optional: tell us more" aria-label="Describe other success goal" disabled>
+              </div>
+            </div>
+          </fieldset>
+          <!-- 5. Challenges (multi-select) -->
+          <fieldset>
+            <legend class="sr-only">5. Challenges</legend>
+            <label>5. What’s been your biggest challenge with finding jobs online? <span class="muted">(Select all that apply)</span></label>
+            <div class="options mt-2">
+              <label class="check"><input type="checkbox" name="challenges" value="Too many scams or low-paying gigs"> <span>Too many scams or low-paying gigs</span></label>
+              <label class="check"><input type="checkbox" name="challenges" value="I don’t know where to look"> <span>I don’t know where to look</span></label>
+              <label class="check"><input type="checkbox" name="challenges" value="I apply but never hear back"> <span>I apply but never hear back</span></label>
+              <label class="check"><input type="checkbox" name="challenges" value="Jobs require too much experience"> <span>Jobs require too much experience</span></label>
+              <label class="check"><input type="checkbox" name="challenges" value="I don’t have time to search every day"> <span>I don’t have time to search every day</span></label>
+            </div>
+          </fieldset>
+
+          <div class="actions">
+            <button class="btn" type="submit"><span aria-hidden></span> Join the Waitlist Now — Beat the Crowd to Easy Jobs</button>
+            <p class="muted mt-2">We respect your time and inbox. Unsubscribe anytime.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+      <p class="muted">© <span id="year"></span> Low‑Hanging Jobs. All rights reserved.</p>
+      <nav class="links">
+        <a href="#waitlist" style="color:var(--clr-accent);text-decoration:none">Join the Waitlist</a>
+        <span class="muted">•</span>
+        <a href="#benefits" style="color:var(--clr-primary);text-decoration:none">Why Low‑Hanging Jobs?</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" role="status" aria-live="polite" style="position:fixed;inset:auto 16px 16px auto;background:#111;color:#fff;padding:.8rem 1rem;border-radius:12px;box-shadow:var(--shadow-soft);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .35s ease, transform .35s ease"></div>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Intersection Observer for reveal animations
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!prefersReduced){
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} });
+      },{threshold:.18});
+      document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+    }
+
+    // Other goal enable/disable
+    const otherCheck = document.getElementById('goal-other');
+    const otherInput = document.getElementById('goal-other-text');
+    otherCheck.addEventListener('change', ()=>{
+      otherInput.disabled = !otherCheck.checked;
+      if(!otherCheck.checked) otherInput.value = '';
+    });
+
+    // Simple form handling + validation
+    const form = document.getElementById('wl-form');
+    const toast = document.getElementById('toast');
+    const showToast = (msg)=>{
+      toast.textContent = msg; toast.style.opacity = 1; toast.style.transform = 'translateY(0)';
+      setTimeout(()=>{toast.style.opacity = 0; toast.style.transform = 'translateY(8px)';}, 3200);
+    };
+
+    function validateEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
+    function validatePrice(v){ if(!v) return true; const n = Number(String(v).replace(/[^0-9.]/g,'')); return Number.isFinite(n) && n >= 0; }
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      // clear errors
+      ['err-name','err-email','err-price'].forEach(id=>document.getElementById(id).style.display='none');
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const rawPrice = document.getElementById('price').value.trim();
+
+      let valid = true;
+      if(!name){ document.getElementById('err-name').style.display='block'; valid = false; }
+      if(!validateEmail(email)){ document.getElementById('err-email').style.display='block'; valid = false; }
+      if(!validatePrice(rawPrice)){ document.getElementById('err-price').style.display='block'; valid = false; }
+      if(!valid) return;
+
+      const price = rawPrice ? Number(rawPrice.replace(/[^0-9.]/g,'')) : null;
+      const goals = Array.from(document.querySelectorAll('input[name="goals"]:checked')).map(i=>i.value);
+      const goalOther = otherInput.disabled ? '' : otherInput.value.trim();
+      const challenges = Array.from(document.querySelectorAll('input[name="challenges"]:checked')).map(i=>i.value);
+
+      const payload = { name, email, price, goals, goalOther, challenges, ts: new Date().toISOString() };
+
+      // Persist locally as a fallback (e.g., demo/static hosting)
+      try{
+        const key = 'lhj_waitlist_v1';
+        const all = JSON.parse(localStorage.getItem(key) || '[]');
+        all.push(payload); localStorage.setItem(key, JSON.stringify(all));
+      }catch(err){ /* ignore quota */ }
+
+      // Send to Google Apps Script
+      fetch('https://script.google.com/macros/s/AKfycbwbJMQhiCtCvMMAwPez6Y5CxroPdOevbJCXGyVDu_J99WHlQtoU3HTQMLXPlRXTmLk9/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        form.reset(); 
+        otherInput.disabled = true;
+        showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showToast("❌ Something went wrong. Please try again.");
+      });
+    });
+  </script>
+</body>
+</html>
