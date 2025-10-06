@@ -953,12 +953,17 @@
     const form = document.getElementById('wl-form');
     const toast = document.getElementById('toast');
     const showToast = (msg)=>{
-      toast.textContent = msg; toast.style.opacity = 1; toast.style.transform = 'translateY(0)';
-      setTimeout(()=>{toast.style.opacity = 0; toast.style.transform = 'translateY(8px)';}, 3200);
+      toast.textContent = msg; 
+      toast.style.opacity = 1; 
+      toast.style.transform = 'translateY(0)';
+      setTimeout(()=>{
+        toast.style.opacity = 0; 
+        toast.style.transform = 'translateY(8px)';
+      }, 3200);
     };
 
     function validateEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
-    function validatePrice(v){ if(!v) return true; const n = Number(String(v).replace(/[^0-9.]/g,'')); return Number.isFinite(n) && n >= 0; }
+    function validatePrice(v){ return v && !isNaN(v) && Number(v) >= 0; }
 
     const submitButton = document.getElementById('submit-button');
     const buttonText = submitButton.querySelector('.button-text');
@@ -970,75 +975,79 @@
       buttonText.textContent = isProcessing ? 'Processing...' : 'Join the Waitlist Now — Beat the Crowd to Easy Jobs';
     }
 
-    form.addEventListener('submit', (e)=>{
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
       
       // clear errors
-      ['err-name','err-email','err-price','err-goals','err-challenges'].forEach(id=>document.getElementById(id).style.display='none');
+      ['err-name','err-email','err-price','err-goals','err-challenges'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.style.display = 'none';
+      });
 
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const rawPrice = document.getElementById('price').value.trim();
-      const selectedGoals = Array.from(document.querySelectorAll('input[name="goals"]:checked')).map(i=>i.value);
-      const selectedChallenges = Array.from(document.querySelectorAll('input[name="challenges"]:checked')).map(i=>i.value);
+      try {
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const rawPrice = document.getElementById('price').value.trim();
+        const selectedGoals = Array.from(document.querySelectorAll('input[name="goals"]:checked')).map(i=>i.value);
+        const selectedChallenges = Array.from(document.querySelectorAll('input[name="challenges"]:checked')).map(i=>i.value);
 
-      let valid = true;
-      if(!name){ document.getElementById('err-name').style.display='block'; valid = false; }
-      if(!validateEmail(email)){ document.getElementById('err-email').style.display='block'; valid = false; }
-      if(!validatePrice(rawPrice)){ document.getElementById('err-price').style.display='block'; valid = false; }
-      if(selectedGoals.length === 0){ document.getElementById('err-goals').style.display='block'; valid = false; }
-      if(selectedChallenges.length === 0){ document.getElementById('err-challenges').style.display='block'; valid = false; }
-      if(!valid) {
-        showToast("❌ Please fill in all required fields.");
-        return;
-      }
+        let valid = true;
+        if(!name){ document.getElementById('err-name').style.display='block'; valid = false; }
+        if(!validateEmail(email)){ document.getElementById('err-email').style.display='block'; valid = false; }
+        if(!validatePrice(rawPrice)){ document.getElementById('err-price').style.display='block'; valid = false; }
+        if(selectedGoals.length === 0){ document.getElementById('err-goals').style.display='block'; valid = false; }
+        if(selectedChallenges.length === 0){ document.getElementById('err-challenges').style.display='block'; valid = false; }
+        
+        if(!valid) {
+          showToast("❌ Please fill in all required fields.");
+          return;
+        }
 
-      // Set processing state only after validation passes
-      setProcessingState(true);
+        // Set processing state only after validation passes
+        setProcessingState(true);
 
-      const price = rawPrice ? Number(rawPrice.replace(/[^0-9.]/g,'')) : null;
-      const goalOther = otherInput.disabled ? '' : otherInput.value.trim();
+        const price = Number(rawPrice);
+        const goalOther = otherInput.disabled ? '' : otherInput.value.trim();
 
-      const payload = { name, email, price, goals: selectedGoals, goalOther, challenges: selectedChallenges, ts: new Date().toISOString() };
+        const payload = { 
+          name, 
+          email, 
+          price, 
+          goals: selectedGoals, 
+          goalOther, 
+          challenges: selectedChallenges, 
+          ts: new Date().toISOString() 
+        };
 
-      // Persist locally as a fallback (e.g., demo/static hosting)
-      try{
-        const key = 'lhj_waitlist_v1';
-        const all = JSON.parse(localStorage.getItem(key) || '[]');
-        all.push(payload); localStorage.setItem(key, JSON.stringify(all));
-      }catch(err){ /* ignore quota */ }
-
-      // Send to Google Apps Script
-      fetch('https://script.google.com/macros/s/AKfycbwbJMQhiCtCvMMAwPez6Y5CxroPdOevbJCXGyVDu_J99WHlQtoU3HTQMLXPlRXTmLk9/exec', {
-        method: 'POST',
-        mode: 'no-cors', // This is important for CORS handling
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload)
-      })
-      .then((response) => {
-        // With no-cors, we assume success if no error is thrown
-        setTimeout(() => {
-          form.reset(); 
+        // Send to Google Apps Script
+        fetch('https://script.google.com/macros/s/AKfycbwbJMQhiCtCvMMAwPez6Y5CxroPdOevbJCXGyVDu_J99WHlQtoU3HTQMLXPlRXTmLk9/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        })
+        .then(() => {
+          form.reset();
           otherInput.disabled = true;
-          showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
           setProcessingState(false);
-          // Scroll to top of the page
+          showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
           window.scrollTo({ top: 0, behavior: 'smooth' });
-          // Track form submission with Facebook Pixel
           if (typeof fbq !== 'undefined') {
             fbq('track', 'CompleteRegistration');
           }
-        }, 800); // Slight delay for better UX
-      })
-      .catch(error => {
-        console.error('Error:', error);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          setProcessingState(false);
+          showToast("❌ Something went wrong. Please try again.");
+        });
+      } catch (error) {
+        console.error('Form Error:', error);
         setProcessingState(false);
         showToast("❌ Something went wrong. Please try again.");
-        // Scroll to see the error message
-        window.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
-      });
+      }
     });
   </script>
 </body>
