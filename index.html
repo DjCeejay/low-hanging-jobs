@@ -882,6 +882,75 @@
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
+    /* Mobile polish: tighter spacing, contained CTAs, readable text */
+    @media (max-width: 640px) {
+      /* Reduce hero vertical footprint and make content feel closer to the top */
+      .hero {
+        min-height: auto;
+        padding-top: max(var(--safe-area-inset-top), 12px);
+        padding-bottom: 18px;
+        margin-top: 0;
+      }
+      .hero-inner { padding-top: 18px; padding-bottom: 18px; }
+      .hero-content { padding: 16px; border-radius: 14px; }
+      .hero h1 { font-size: clamp(22px, 6.8vw, 30px); line-height: 1.08; }
+      .hero-description { font-size: 15px; margin: 12px auto 0; }
+
+      /* CTA buttons: stack and fill but stay inside container */
+      .hero-cta { flex-direction: column; gap: 12px; align-items: center; }
+      .hero-cta .btn, .cta-section .btn, .btn {
+        width: 100%;
+        max-width: 520px;
+        padding: 12px 14px;
+        font-size: 16px;
+        border-radius: 12px;
+        white-space: normal;
+      }
+
+      /* Cards / grid: single column and reduced padding */
+      .grid { gap: 14px; }
+      .grid > article, .grid > blockquote { padding: 16px; }
+      .grid { grid-template-columns: 1fr; }
+      .card { border-radius: 14px; }
+
+      /* Decorative elements: hide to reduce clutter and avoid overflow */
+      .decorative-pattern, .decorative-side { display: none; }
+
+      /* Form: ensure inputs and options stack and are reachable */
+      .form-wrap { padding: 16px; border-radius: 14px; }
+      .options { display: grid; grid-template-columns: 1fr; gap: 10px; }
+      .actions { padding-top: 12px; }
+
+      /* Testimonials: single column cards */
+      .grid[style*="auto-fit"] { grid-template-columns: 1fr; }
+
+      /* Text sizing and spacing tweaks */
+      .muted { font-size: 14px; }
+      .headline { font-size: clamp(18px, 5.6vw, 22px); }
+      footer .container { padding-bottom: calc(env(safe-area-inset-bottom) + 16px); }
+      /* Testimonials: more readable on mobile */
+      .grid blockquote.card p { font-style: italic; font-size: 15px; margin: 0 0 0.75rem; }
+      .grid blockquote.card footer { font-size: 13px; opacity: 0.85; }
+      /* Inputs: clearer focus and easier tap targets */
+      input[type="text"], input[type="email"], .text-input {
+        padding: 14px 12px;
+        font-size: 16px;
+      }
+      input[type="text"]:focus, input[type="email"]:focus, .text-input:focus {
+        outline: none;
+        box-shadow: 0 4px 18px rgba(109,46,143,0.08);
+        border-color: var(--clr-primary);
+      }
+    }
+
+    /* Extra-small screens: simplify spacing and font sizes */
+    @media (max-width: 420px) {
+      .hero h1 { font-size: clamp(20px, 7.5vw, 26px); }
+      .hero-description { font-size: 14px; }
+      .hero-cta .btn, .cta-section .btn { padding: 10px 12px; font-size: 15px; }
+      .container { padding-inline: 12px; }
+      .card, .form-wrap { padding: 12px; }
+    }
   </style>
 </head>
 <body>
