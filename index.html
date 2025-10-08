@@ -1265,8 +1265,8 @@
           body: JSON.stringify(payload)
         })
         .then(() => {
-          // Redirect to thank you page
-          window.location.href = '/thank-you.html';
+          // Redirect to thank you page (use relative path to support subpath hosting)
+          window.location.href = 'thank-you.html';
           otherInput.disabled = true;
           setProcessingState(false);
           showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
