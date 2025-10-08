@@ -41,6 +41,16 @@
       --safe-area-inset-top: env(safe-area-inset-top, 0px);
       --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
     }
+    /* Global box-sizing and overflow guard */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    /* Prevent accidental horizontal scroll on small devices */
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
     /* Enhanced Base Styles */
     html{
       scroll-behavior:smooth;
@@ -63,11 +73,11 @@
       letter-spacing:-0.02em;
     }
     .container{
-      max-width:var(--maxw);
-      margin-inline:auto;
-      padding-inline:clamp(16px,3vw,32px);
-      width: 100%;
-      box-sizing: border-box;
+  max-width:var(--maxw);
+  margin-inline:auto;
+  padding-inline:clamp(12px,4vw,28px);
+  width: 100%;
+  box-sizing: border-box;
     }
     /* Enhanced Button Styles */
     .btn{
@@ -154,17 +164,49 @@
     .hero-backdrop::before {
       width: 42rem;
       height: 42rem;
-      right: -18rem;
-      top: -18rem;
+  right: 0;
+  top: 0;
+  transform: translate(50%, -50%);
       background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
     }
 
     .hero-backdrop::after {
       width: 34rem;
       height: 34rem;
-      left: -16rem;
-      bottom: -16rem;
+  left: 0;
+  bottom: 0;
+  transform: translate(-40%, 40%);
       background: linear-gradient(135deg, var(--clr-secondary), var(--clr-primary));
+    }
+
+    @media (max-width: 640px) {
+      /* Use transforms instead of negative offsets so decorative backdrops
+         don't increase computed layout width and cause horizontal scroll */
+      .hero-backdrop::before {
+        right: 0;
+        top: 0;
+        width: 28rem;
+        height: 28rem;
+        transform: translate(40%, -40%);
+        filter: blur(60px);
+      }
+      .hero-backdrop::after {
+        left: 0;
+        bottom: 0;
+        width: 22rem;
+        height: 22rem;
+        transform: translate(-30%, 30%);
+        filter: blur(46px);
+      }
+      /* Constrain decorative SVGs so they don't overflow horizontally */
+      .decorative-side { display: none; }
+
+      /* Allow buttons to wrap and remain within container on small screens */
+      .btn {
+        white-space: normal;
+        overflow: visible;
+        font-size: clamp(15px, 3.8vw, 18px);
+      }
     }
 
     .hero-inner {
@@ -239,12 +281,12 @@
     }
 
     .hero-cta {
-      margin-top: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
     }
 
     .primary-btn {
@@ -268,6 +310,11 @@
     }
 
     @media (max-width: 768px) {
+      .container {
+        padding-inline: max(12px, 4vw);
+        margin-inline: 0.5rem;
+      }
+
       .hero-content {
         padding: clamp(16px, 3vw, 24px);
         margin: 0;
@@ -275,6 +322,12 @@
         width: 100%;
         box-sizing: border-box;
       }
+
+      /* Reduce top spacing so hero doesn't push content down on small screens */
+      .hero-inner { padding-top: clamp(12px, 6vw, 40px); padding-bottom: clamp(12px,4vw,24px); }
+      /* Ensure CTA buttons are contained */
+      .hero-cta .btn, .cta-section .btn, .cta-headline { max-width: 100%; box-sizing: border-box; overflow-wrap: anywhere; }
+      .hero-cta .btn { padding-left: 1rem; padding-right: 1rem; }
     }
 
     /* Enhanced BENEFITS */
@@ -330,7 +383,9 @@
       border-radius:28px;
       padding:clamp(24px,4vw,40px);
       position: relative;
-      overflow: hidden;
+      /* allow inner form content to flow and not be clipped on narrow screens */
+  overflow: visible;
+  max-width: 100%;
     }
     .form-wrap::before {
       content: '';
@@ -345,6 +400,20 @@
       display:grid;
       gap:clamp(18px, 2.5vw, 24px);
       margin-top:clamp(18px, 2.5vw, 24px);
+    }
+
+    /* Ensure option grids don't create collapsed rows on small screens */
+    .options {
+      grid-auto-rows: auto;
+    }
+
+    @media (max-width: 640px) {
+      /* Give extra bottom padding to avoid safe-area or fixed footers hiding the last fields */
+      .form-wrap {
+        padding-bottom: max(20px, calc(env(safe-area-inset-bottom) + 16px));
+        overflow-y: visible;
+      }
+      .actions { padding-bottom: 12px; }
     }
     label{
       display:block;
@@ -456,8 +525,9 @@
     }
     @media (max-width: 480px) {
       .form-wrap {
-        border-radius: 20px;
-        margin-inline: -16px;
+  border-radius: 20px;
+  margin-inline: 0;
+  padding-inline: max(12px, 4vw);
       }
     }
 
@@ -756,7 +826,7 @@
     /* Responsive Improvements */
     @media (min-width: 1200px) {
       .container {
-        padding-inline: max(32px, calc((100vw - var(--maxw)) / 2));
+  padding-inline: max(32px, calc((100vw - var(--maxw)) / 2));
       }
     }
 
@@ -844,97 +914,73 @@
     </div>
   </header>
 
-  <!-- WHO THIS IS FOR -->
+  <!-- WHO THIS IS FOR / BENEFITS -->
   <main>
     <section class="container">
-      <h2 class="headline" style="font-size:clamp(26px,3.6vw,36px);color:var(--clr-primary);margin:0 0 1.5rem">Who This Is For</h2>
-      <p>Low-Hanging Jobs is built for you if you are any of the following:</p>
-      <ul style="list-style:none;padding:0;margin:2rem 0;display:grid;gap:1rem">
-        <li style="display:flex;gap:1rem;align-items:flex-start">
-          <span style="color:var(--clr-secondary)">✓</span>
-          <span>A freelancer tired of sending proposals on Upwork and Fiverr without any replies.</span>
-        </li>
-        <li style="display:flex;gap:1rem;align-items:flex-start">
-          <span style="color:var(--clr-secondary)">✓</span>
-          <span>A remote worker frustrated with competing with 500+ applicants on LinkedIn and Indeed.</span>
-        </li>
-        <li style="display:flex;gap:1rem;align-items:flex-start">
-          <span style="color:var(--clr-secondary)">✓</span>
-          <span>A recent graduate looking for your first real break into remote working without needing years of experience.</span>
-        </li>
-        <li style="display:flex;gap:1rem;align-items:flex-start">
-          <span style="color:var(--clr-secondary)">✓</span>
-          <span>A skilled professional (like a graphic designer, writer, or virtual assistant) who wants to find clients faster.</span>
-        </li>
-        <li style="display:flex;gap:1rem;align-items:flex-start">
-          <span style="color:var(--clr-secondary)">✓</span>
-          <span>A side-hustler wanting to turn your skill into extra income with flexible, part-time gigs.</span>
-        </li>
-        <li style="display:flex;gap:1rem;align-items:flex-start">
-          <span style="color:var(--clr-secondary)">✓</span>
-          <span>Anyone who is tired of being ghosted by employers and wants a more human way to find work.</span>
-        </li>
-      </ul>
-    </section>
+      <h2 class="headline" style="font-size:clamp(26px,3.6vw,36px);color:var(--clr-primary);margin:0 0 1.5rem">Why Low‑Hanging Jobs?</h2>
+      <p>Find the jobs hiding in communities other platforms ignore — delivered to one dashboard so you can apply fast and skip the noise.</p>
 
-    <!-- BENEFITS -->
-    <section class="benefits container">
-      <div class="grid">
-        <article class="card reveal">
-          <h3> Easy Jobs, No Gatekeepers</h3>
-          <p>No complex resumes. No 5‑round interviews. Just real jobs posted by small businesses, startups, and founders who need help — <em>now</em>.</p>
-        </article>
-        <article class="card reveal" style="transition-delay:.08s">
-          <h3> Be the First to Apply</h3>
-          <p>Opportunities sorted by how fresh they are. See what was posted <strong>3 hours ago…</strong></p>
-        </article>
-        <article class="card reveal" style="transition-delay:.16s">
-          <h3> Stop Competing With Everyone</h3>
-          <p>The hidden jobs are out there. We’ll help you find them first.</p>
-        </article>
+      <div class="benefits mt-4">
+        <div class="grid">
+          <article class="card reveal">
+            <h3>Easy Jobs, No Gatekeepers</h3>
+            <p>No complex resumes. No 5‑round interviews. Just real jobs posted by small businesses, startups, and founders who need help — <strong>now</strong>.</p>
+          </article>
+          <article class="card reveal" style="transition-delay:.06s">
+            <h3>Be the First to Apply</h3>
+            <p>Opportunities sorted by how <em>fresh</em> they are. See what was posted 3 hours ago — not last week.</p>
+          </article>
+          <article class="card reveal" style="transition-delay:.12s">
+            <h3>Less Competition, More Hires</h3>
+            <p>While others crowd LinkedIn, Indeed, Upwork and Fiverr, you get access to jobs hiding in communities they’re ignoring.</p>
+          </article>
+          <article class="card reveal" style="transition-delay:.18s">
+            <h3>Curated for You</h3>
+            <p>Set your skills and roles. See only the jobs that matter to you — fewer distractions, higher signal.</p>
+          </article>
+          <article class="card reveal" style="transition-delay:.24s">
+            <h3>One Dashboard, Every Opportunity</h3>
+            <p>No more scrolling through 50 Facebook groups or 10 Slack channels. We bring all the opportunities to one simple place.</p>
+          </article>
+        </div>
       </div>
 
-      <div class="center mt-8 cta-section">
-        <!-- Decorative top pattern -->
-        <svg class="decorative-pattern" width="240" height="80" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M120 16C120 16 140 32 140 40C140 48 120 64 120 64" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round" opacity="0.2"/>
-          <path d="M120 8C120 8 148 32 148 40C148 48 120 72 120 72" stroke="var(--clr-accent)" stroke-width="2" stroke-linecap="round" opacity="0.15"/>
-          <path d="M120 0C120 0 156 32 156 40C156 48 120 80 120 80" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round" opacity="0.1"/>
-          <!-- Mirror the patterns for symmetry -->
-          <path d="M120 16C120 16 100 32 100 40C100 48 120 64 120 64" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round" opacity="0.2"/>
-          <path d="M120 8C120 8 92 32 92 40C92 48 120 72 120 72" stroke="var(--clr-accent)" stroke-width="2" stroke-linecap="round" opacity="0.15"/>
-          <path d="M120 0C120 0 84 32 84 40C84 48 120 80 120 80" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round" opacity="0.1"/>
-        </svg>
+      <section style="margin-top:2.5rem">
+        <h2 class="headline" style="font-size:clamp(22px,3.2vw,28px);margin:0 0 1rem">Tired of Getting Ghosted? Applying to 100 Jobs and Hearing Nothing?</h2>
+        <p>Most platforms are bloated — 500 people apply to every job, and companies ghost 95% of them. But behind the scenes, there’s another stream of jobs — ones posted by people who aren’t hiring through traditional platforms.</p>
+        <p>They’re posting in groups. Twitter threads. Slack channels. Facebook groups. But unless you're glued to your screen all day, you’ll miss them.</p>
+        <p><strong>Low‑Hanging Jobs fixes that.</strong> We scan hidden corners of the internet and pull those opportunities into one clean, simple dashboard. You don’t need to scroll. You don’t need to guess. You just log in and apply early — it’s like job hunting with a cheat code.</p>
+      </section>
 
-        <p class="headline cta-headline">Ready to Stop Competing for the Same Jobs as Everyone Else?</p>
-        
-        <!-- Enhanced decorative elements -->
-        <div class="decorative-side left" aria-hidden="true">
-          <svg width="120" height="160" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="path-animated" d="M60 20C60 20 90 60 90 80C90 100 60 140 60 140" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="60" cy="140" r="4" fill="var(--clr-accent)"/>
-            <path d="M40 60C40 60 55 80 55 90C55 100 40 120 40 120" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-          </svg>
+      <section class="center mt-6">
+        <p class="muted">Already <strong>300+</strong> job hunters have joined our early waitlist — freelancers, remote workers, junior devs, marketers, virtual assistants, and people tired of rejection who want to try smarter.</p>
+      </section>
+
+      <section class="mt-6">
+        <h3 class="headline" style="font-size:clamp(20px,3vw,24px);margin:0 0 1rem">What users are saying</h3>
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem">
+          <blockquote class="card reveal">
+            <p>“I applied to a role within 30 minutes of it being posted, and got hired the same day. Low‑Hanging Jobs just works.”</p>
+            <footer class="muted">— Aisha Bello, Virtual Assistant, Nigeria</footer>
+          </blockquote>
+          <blockquote class="card reveal">
+            <p>“I thought the jobs would be low-paying, but I landed a $3,000/month gig from a startup in New York through here.”</p>
+            <footer class="muted">— James Tucker, Web Developer, USA</footer>
+          </blockquote>
+          <blockquote class="card reveal">
+            <p>“What I love most is the speed. You don’t wait days to hear back — these founders reply fast. I’m in love.”</p>
+            <footer class="muted">— Zanele Mokoena, Social Media Manager, South Africa</footer>
+          </blockquote>
+          <blockquote class="card reveal">
+            <p>“I found two part-time contracts in one week — both from Facebook groups I’d never even heard of. This tool is genius.”</p>
+            <footer class="muted">— Luc Dubois, Customer Support Rep, France</footer>
+          </blockquote>
+          <blockquote class="card reveal">
+            <p>“I came across a part-time role that fits perfectly into my schedule. I wouldn’t have seen it if not for Low‑Hanging Jobs.”</p>
+            <footer class="muted">— Rasheed, Admin Assistant, India</footer>
+          </blockquote>
         </div>
-        
-        <div class="decorative-side right" aria-hidden="true">
-          <svg width="120" height="160" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="path-animated" d="M60 20C60 20 30 60 30 80C30 100 60 140 60 140" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="60" cy="140" r="4" fill="var(--clr-accent)"/>
-            <path d="M80 60C80 60 65 80 65 90C65 100 80 120 80 120" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-          </svg>
-        </div>
-        
-        <p class="mt-3">
-          <a class="btn cta-button" href="#waitlist">
-            <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 4V16M10 16L4 10M10 16L16 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Join the Waitlist Now
-          </a>
-        </p>
-        <p class="muted mt-2 cta-note">✨ Spots are limited for early access</p>
-      </div>
+      </section>
     </section>
 
     <!-- WAITLIST FORM -->
