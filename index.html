@@ -952,6 +952,35 @@
       .card, .form-wrap { padding: 12px; }
     }
   </style>
+  <style>
+    /* Section header consistency */
+    .section-header {
+      font-family: Sora, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: var(--clr-primary);
+      font-weight: 700;
+      font-size: clamp(20px, 3vw, 24px);
+      margin: 0 0 12px;
+    }
+
+    /* Testimonial slider */
+    .testimonial-slider { overflow: hidden; position: relative; padding: 12px 0; }
+    .testimonial-slider .slides { display: flex; gap: 12px; width: max-content; align-items: stretch; transition: transform 0.2s linear; }
+    .testimonial-slider .slide { min-width: 320px; max-width: 420px; flex: 0 0 auto; }
+    .testimonial-slider .slide p { margin: 0 0 0.5rem; }
+
+    /* Mobile: switch to swipeable scroll-snap carousel for better UX */
+    @media (max-width: 640px) {
+      .testimonial-slider { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-inline: 12px; }
+      .testimonial-slider .slides { width: auto; display: flex; gap: 12px; transform: none !important; }
+      .testimonial-slider .slide { min-width: 82%; max-width: 82%; flex: 0 0 auto; scroll-snap-align: center; }
+      .testimonial-slider { scroll-snap-type: x mandatory; }
+      .testimonial-slider .slides { align-items: stretch; }
+    }
+  </style>
+  <style>
+    /* Section helper for consistent spacing */
+    .section { padding-block: clamp(24px, 6vw, 48px); }
+  </style>
 </head>
 <body>
   <!-- HERO -->
@@ -985,8 +1014,8 @@
 
   <!-- WHO THIS IS FOR / BENEFITS -->
   <main>
-    <section class="container">
-      <h2 class="headline" style="font-size:clamp(26px,3.6vw,36px);color:var(--clr-primary);margin:0 0 1.5rem">Why Low‑Hanging Jobs?</h2>
+  <section class="container section">
+  <h2 class="section-header">Why Low‑Hanging Jobs?</h2>
       <p>Find the jobs hiding in communities other platforms ignore — delivered to one dashboard so you can apply fast and skip the noise.</p>
 
       <div class="benefits mt-4">
@@ -1015,7 +1044,7 @@
       </div>
 
       <section style="margin-top:2.5rem">
-        <h2 class="headline" style="font-size:clamp(22px,3.2vw,28px);margin:0 0 1rem">Tired of Getting Ghosted? Applying to 100 Jobs and Hearing Nothing?</h2>
+  <h2 class="section-header">Tired of Getting Ghosted? Applying to 100 Jobs and Hearing Nothing?</h2>
         <p>Most platforms are bloated — 500 people apply to every job, and companies ghost 95% of them. But behind the scenes, there’s another stream of jobs — ones posted by people who aren’t hiring through traditional platforms.</p>
         <p>They’re posting in groups. Twitter threads. Slack channels. Facebook groups. But unless you're glued to your screen all day, you’ll miss them.</p>
         <p><strong>Low‑Hanging Jobs fixes that.</strong> We scan hidden corners of the internet and pull those opportunities into one clean, simple dashboard. You don’t need to scroll. You don’t need to guess. You just log in and apply early — it’s like job hunting with a cheat code.</p>
@@ -1025,37 +1054,13 @@
         <p class="muted">Already <strong>300+</strong> job hunters have joined our early waitlist — freelancers, remote workers, junior devs, marketers, virtual assistants, and people tired of rejection who want to try smarter.</p>
       </section>
 
-      <section class="mt-6">
-        <h3 class="headline" style="font-size:clamp(20px,3vw,24px);margin:0 0 1rem">What users are saying</h3>
-        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem">
-          <blockquote class="card reveal">
-            <p>“I applied to a role within 30 minutes of it being posted, and got hired the same day. Low‑Hanging Jobs just works.”</p>
-            <footer class="muted">— Aisha Bello, Virtual Assistant, Nigeria</footer>
-          </blockquote>
-          <blockquote class="card reveal">
-            <p>“I thought the jobs would be low-paying, but I landed a $3,000/month gig from a startup in New York through here.”</p>
-            <footer class="muted">— James Tucker, Web Developer, USA</footer>
-          </blockquote>
-          <blockquote class="card reveal">
-            <p>“What I love most is the speed. You don’t wait days to hear back — these founders reply fast. I’m in love.”</p>
-            <footer class="muted">— Zanele Mokoena, Social Media Manager, South Africa</footer>
-          </blockquote>
-          <blockquote class="card reveal">
-            <p>“I found two part-time contracts in one week — both from Facebook groups I’d never even heard of. This tool is genius.”</p>
-            <footer class="muted">— Luc Dubois, Customer Support Rep, France</footer>
-          </blockquote>
-          <blockquote class="card reveal">
-            <p>“I came across a part-time role that fits perfectly into my schedule. I wouldn’t have seen it if not for Low‑Hanging Jobs.”</p>
-            <footer class="muted">— Rasheed, Admin Assistant, India</footer>
-          </blockquote>
-        </div>
-      </section>
-    </section>
+     
+  </section>
 
-    <!-- WAITLIST FORM -->
-    <section id="waitlist" class="container" aria-labelledby="waitlist-title">
+  <!-- WAITLIST FORM -->
+  <section id="waitlist" class="container section" aria-labelledby="waitlist-title">
       <div class="form-wrap reveal">
-        <h2 id="waitlist-title" class="headline" style="font-size:clamp(26px,3.6vw,36px);color:var(--clr-primary);margin:0 0 1rem">Join The Waitlist</h2>
+  <h2 id="waitlist-title" class="section-header">Join The Waitlist</h2>
         <p class="muted" style="margin:0 0 1.5rem">Be the first to get instant access when we launch!</p>
 
         <form id="wl-form" novalidate>
@@ -1120,6 +1125,20 @@
             <p class="muted mt-2">We respect your time and inbox. Unsubscribe anytime.</p>
           </div>
         </form>
+      </div>
+    </section>
+    
+    <!-- TESTIMONIALS SLIDER (moved below form) -->
+  <section class="container section" aria-label="Testimonials">
+      <h3 class="section-header" style="margin-bottom:0.75rem">What users are saying</h3>
+      <div class="testimonial-slider" id="testimonial-slider">
+        <div class="slides">
+          <div class="slide card"> <p>“I applied to a role within 30 minutes of it being posted, and got hired the same day. Low‑Hanging Jobs just works.”</p><footer class="muted">— Aisha Bello, Virtual Assistant, Nigeria</footer> </div>
+          <div class="slide card"> <p>“I thought the jobs would be low-paying, but I landed a $3,000/month gig from a startup in New York through here.”</p><footer class="muted">— James Tucker, Web Developer, USA</footer> </div>
+          <div class="slide card"> <p>“What I love most is the speed. You don’t wait days to hear back — these founders reply fast. I’m in love.”</p><footer class="muted">— Zanele Mokoena, Social Media Manager, South Africa</footer> </div>
+          <div class="slide card"> <p>“I found two part-time contracts in one week — both from Facebook groups I’d never even heard of. This tool is genius.”</p><footer class="muted">— Luc Dubois, Customer Support Rep, France</footer> </div>
+          <div class="slide card"> <p>“I came across a part-time role that fits perfectly into my schedule. I wouldn’t have seen it if not for Low‑Hanging Jobs.”</p><footer class="muted">— Rasheed, Admin Assistant, India</footer> </div>
+        </div>
       </div>
     </section>
   </main>
@@ -1261,6 +1280,40 @@
         showToast("❌ Something went wrong. Please try again.");
       }
     });
+
+    // Testimonial slider: auto-scroll on desktop, swipe/scroll on mobile
+    (function(){
+      const wrap = document.getElementById('testimonial-slider');
+      if(!wrap) return;
+      const slidesEl = wrap.querySelector('.slides');
+      const isMobile = window.matchMedia('(max-width: 640px)').matches;
+
+      if(isMobile){
+        // Use native horizontal scroll + scroll-snap on mobile; no auto-scroll
+        wrap.querySelectorAll('.slide').forEach(s=>s.style.scrollSnapAlign='center');
+        return;
+      }
+
+      // Desktop: create continuous auto-scroll
+      slidesEl.innerHTML += slidesEl.innerHTML;
+      let pos = 0;
+      const speed = 0.35; // px per frame; tuned for readability
+      let rafId;
+      function step(){
+        pos += speed;
+        if(pos >= slidesEl.scrollWidth/2) pos = 0;
+        slidesEl.style.transform = `translateX(${-pos}px)`;
+        rafId = requestAnimationFrame(step);
+      }
+      slidesEl.style.willChange = 'transform';
+      step();
+
+      // Pause on hover for desktop
+      wrap.addEventListener('mouseenter', ()=> cancelAnimationFrame(rafId));
+      wrap.addEventListener('mouseleave', ()=> { rafId = requestAnimationFrame(step); });
+      // Re-evaluate on resize (switch behavior)
+      window.addEventListener('resize', ()=> location.reload());
+    })();
   </script>
 </body>
 </html>
