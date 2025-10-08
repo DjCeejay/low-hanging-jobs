@@ -884,12 +884,18 @@
     }
     /* Mobile polish: tighter spacing, contained CTAs, readable text */
     @media (max-width: 640px) {
+      /* Prevent any accidental horizontal scroll and remove extra top safe-area padding */
+      html, body { padding-top: 0 !important; min-width: 0 !important; overflow-x: hidden !important; }
+
+      /* Keep the main container centered and never wider than the viewport */
+      .container { box-sizing: border-box; max-width: 100% !important; margin-inline: auto !important; padding-inline: max(12px, 4vw) !important; }
+
       /* Reduce hero vertical footprint and make content feel closer to the top */
       .hero {
         min-height: auto;
-        padding-top: max(var(--safe-area-inset-top), 12px);
-        padding-bottom: 18px;
-        margin-top: 0;
+        padding-top: 8px !important;
+        padding-bottom: 12px !important;
+        margin-top: 0 !important;
       }
       .hero-inner { padding-top: 18px; padding-bottom: 18px; }
       .hero-content { padding: 16px; border-radius: 14px; }
@@ -913,8 +919,8 @@
       .grid { grid-template-columns: 1fr; }
       .card { border-radius: 14px; }
 
-      /* Decorative elements: hide to reduce clutter and avoid overflow */
-      .decorative-pattern, .decorative-side { display: none; }
+      /* Constrain decorative backdrops and patterns so they don't push layout width */
+      .hero-backdrop, .decorative-pattern, .decorative-side { max-width: 100vw !important; left: 50% !important; right: 50% !important; transform: translateX(-50%) !important; }
 
       /* Form: ensure inputs and options stack and are reachable */
       .form-wrap { padding: 16px; border-radius: 14px; }
