@@ -65,7 +65,7 @@
     .container{
       max-width:var(--maxw);
       margin-inline:auto;
-      padding:clamp(16px,3vw,32px);
+      padding-inline:clamp(16px,3vw,32px);
       width: 100%;
       box-sizing: border-box;
     }
@@ -93,6 +93,9 @@
       width: auto;
       font-family: inherit;
       font-size: inherit;
+      white-space: nowrap;
+      max-width: 100%;
+      overflow: hidden;
     }
     .btn:hover{
       transform: translateY(-2px);
@@ -237,6 +240,11 @@
 
     .hero-cta {
       margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
     }
 
     .primary-btn {
@@ -262,7 +270,10 @@
     @media (max-width: 768px) {
       .hero-content {
         padding: clamp(16px, 3vw, 24px);
-        margin: 0 clamp(12px, 3vw, 20px);
+        margin: 0;
+        border-radius: calc(var(--radius) / 2);
+        width: 100%;
+        box-sizing: border-box;
       }
     }
 
@@ -814,7 +825,7 @@
           <span class="highlight">And Get Hired Fast</span>
         </h1>
         <p class="hero-description">
-          Every day, hundreds of easy-to-get jobs are posted in Facebook groups, Twitter feeds, Slack channels, and subreddits. But they disappear quickly — and most job seekers never see them.
+          Every day, hundreds of easy-to-get remote jobs are posted in Facebook groups, Twitter feeds, Slack channels, and subreddits. But they disappear quickly — and most job seekers never see them.
           <br> <strong class="text-emphasis">Low‑Hanging Jobs</strong> brings them all to one place — so you can apply first, skip the noise, and get hired faster.
         </p>
         <div class="hero-cta">
@@ -1114,7 +1125,8 @@
           body: JSON.stringify(payload)
         })
         .then(() => {
-          form.reset();
+          // Redirect to thank you page
+          window.location.href = '/thank-you.html';
           otherInput.disabled = true;
           setProcessingState(false);
           showToast("✅ Thanks! You're on the waitlist. We'll be in touch soon.");
